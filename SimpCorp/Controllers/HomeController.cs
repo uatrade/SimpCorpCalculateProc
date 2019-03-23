@@ -16,19 +16,29 @@ namespace SimpCorp.Controllers
 
         public ActionResult Caclulate(Invest invest)
         {
-            InvestMetods investMetods = new InvestMetods();
-            double periodInvestMonth = investMetods.CountMonth(invest);
+            try
+            {
+                InvestMetods investMetods = new InvestMetods();
+                double periodInvestMonth = investMetods.CountMonth(invest);
+                if (periodInvestMonth< 1)
+                {
+                    return View("Index");
+                }
+                int numOfmonth = (int)Math.Ceiling(periodInvestMonth);
 
-            int numOfmonth = (int)Math.Ceiling(periodInvestMonth);
+                double procInMonth = invest.annualProcR / 12 / 100;  //% invest Month
+                double K = procInMonth * Math.Pow((1 + procInMonth), periodInvestMonth) / (Math.Pow((1 + procInMonth), periodInvestMonth) - 1);
 
-            double procInMonth = invest.annualProcR / 12/100;  //% invest Month
-            double K = procInMonth * Math.Pow((1+ procInMonth), periodInvestMonth) / (Math.Pow((1+ procInMonth), periodInvestMonth) - 1);
+                ViewBag.NumOfMonth = numOfmonth;
+                ViewBag.PaidOfMonth = invest.investAmountX * K;
+                ViewBag.FinishRefundDate = invest.calculation_date;
 
-            ViewBag.NumOfMonth = numOfmonth;
-            ViewBag.PaidOfMonth = invest.investAmountX * K;
-            ViewBag.FinishRefundDate = invest.calculation_date;
-
-            return View("Index", invest);
+                return View("Index", invest);
+            }
+            catch (Exception)
+            {
+                return View("Index");
+            }
         }
 
     }
