@@ -1,0 +1,63 @@
+﻿@model SimpCorp.Models.Invest
+@{
+    ViewBag.Title = "SimpCorp";
+}
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-5">
+            @using (Html.BeginForm("Caclulate", "Home", FormMethod.Post))
+            {
+                    <div class="form-group">
+                        <label for="agreement_date">Agreement date</label>
+                        <input type="date" class="form-control" id="agreement_date" name="agreement_date" placeholder="Choose Agreement Date,">
+                    </div>
+                    <div class="form-group">
+                        <label for="calculation_date">Calculation date</label>
+                        <input type="date" class="form-control" id="calculation_date" name="calculation_date" placeholder="Choose Calculation Date">
+                    </div>
+                    <div class="form-group">
+                        <label for="investAmountX ">Amount of Your Investment</label>
+                        <input type="number" class="form-control" id="investAmountX" name="investAmountX" placeholder="Amount of Investment">
+                    </div>
+                    <div class="form-group">
+                        <label for="annualProcR">Interest rate % per year.</label>
+                        <input type="number" class="form-control" id="annualProcR" name="annualProcR" placeholder="Interest rate % per year.">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+            }
+        </div>
+        <div class="col-lg-4">
+            <div>
+                @if (Model != null)
+                    {
+                        int month = Convert.ToInt32(ViewBag.NumOfMonth);
+                    <div class="row">
+                    <div class="col-lg-1">N</div>
+                    <div class="col-lg-5">Month</div>
+                    <div class="col-lg-6">Sum</div>
+                </div>
+                    for (int k = 1; k < month+1; k++)
+                    {
+
+                <div class="row">
+                    <div class="col-lg-1">@k</div>
+                    <div class="col-lg-5">@Model.agreement_date.AddMonths(k).ToShortDateString()</div>
+                    <div class="col-lg-6">@Convert.ToDouble(ViewBag.PaidOfMonth)</div>
+                    @*<div class="col-lg-4"></div>*@
+                </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="col-lg-1">
+
+        </div>
+
+    </div>
+</div>
+
+
+
